@@ -1,0 +1,255 @@
+// VARIABLES
+$portal-green: #00ff9f;
+$portal-dark: #121212;
+$accent-purple: #6c5ce7;
+$shadow-normal: 0 4px 12px rgba(0, 0, 0, 0.18);
+$shadow-hover: 0 10px 26px rgba(0, 0, 0, 0.35);
+
+// MIXINS
+@mixin smooth-transition($props...) {
+  transition: $props 0.35s ease;
+}
+
+// GLOBAL CONTAINER
+.rickmorty-container {
+  background-color: $portal-dark;
+  color: white;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+// BOTÓN VOLVER A GITHUB
+.nav-github {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+.github-button {
+  background-color: $portal-green !important;
+  color: black !important;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  border-radius: 8px;
+  padding: 10px 20px;
+  box-shadow: 0 4px 10px rgba(0, 255, 159, 0.3);
+  @include smooth-transition(all);
+
+  &:hover {
+    background-color: darken($portal-green, 10%) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 255, 159, 0.4);
+  }
+}
+
+// INPUT Y BOTÓN BUSCAR
+.search-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 25px;
+  margin-top: 10px;
+
+  .MuiFormLabel-root {
+    position: static !important;
+    transform: none !important;
+    color: $portal-green !important;
+    font-weight: 500;
+  }
+
+  .MuiOutlinedInput-root {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+
+    input {
+      color: #333;
+      font-weight: 500;
+      padding: 10px 12px;
+    }
+
+    &.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: $portal-green !important;
+    }
+
+    .MuiOutlinedInput-notchedOutline {
+      border-color: #ccc;
+    }
+  }
+
+  .search-button {
+    background-color: $portal-green !important;
+    color: black !important;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 10px 20px;
+    box-shadow: 0 4px 10px rgba(0, 255, 159, 0.3);
+    @include smooth-transition(all);
+
+    &:hover {
+      background-color: darken($portal-green, 10%) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0, 255, 159, 0.4);
+    }
+  }
+}
+
+// CHARACTER CARD (LISTA)
+.character-card {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: $shadow-normal;
+  cursor: pointer;
+  @include smooth-transition(transform, box-shadow);
+
+  &:hover {
+    transform: scale(1.03);
+    box-shadow: $shadow-hover;
+
+    img {
+      transform: scale(1.12);
+    }
+  }
+
+  img {
+    @include smooth-transition(transform);
+  }
+
+  .character-overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    color: white;
+
+    .card-button {
+      margin-top: 10px;
+      color: white !important;
+      border-color: white !important;
+      font-weight: bold;
+      letter-spacing: 1px;
+      @include smooth-transition(all);
+
+      &:hover {
+        background-color: $portal-green !important;
+        border-color: $portal-green !important;
+        color: black !important;
+        transform: translateY(-3px);
+      }
+    }
+  }
+}
+
+// PAGINATION
+.pagination-container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+
+    .MuiPaginationItem-root {
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      @include smooth-transition(all);
+
+      &:hover {
+        background-color: rgba(0, 255, 159, 0.2);
+      }
+    }
+
+    .Mui-selected {
+      background-color: $portal-green !important;
+      color: black !important;
+      border-radius: 8px !important;
+      box-shadow: 0 4px 10px rgba(0, 255, 159, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .MuiPaginationItem-previousNext {
+      color: $portal-green !important;
+      font-weight: 600;
+    }
+  }
+}
+
+// DETAIL PAGE
+.detail-container {
+  background-color: $portal-dark;
+  color: white;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.detail-card {
+  width: 90%;
+  max-width: 500px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: $shadow-normal;
+  background-color: #1e1e1e;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 90vh;
+  @include smooth-transition(transform, box-shadow);
+
+  &:hover {
+    box-shadow: $shadow-hover;
+  }
+
+  .detail-image {
+    object-fit: cover;
+    width: 100%;
+    height: 55%;
+  }
+
+  .detail-content {
+    padding: 20px;
+    text-align: center;
+    flex: 1;
+
+    .detail-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: $portal-green;
+      margin-bottom: 10px;
+    }
+
+    p,
+    .MuiTypography-body1,
+    .MuiTypography-body2 {
+      margin: 6px 0;
+      color: #aaa;
+      font-size: 0.95rem;
+    }
+
+    .back-button {
+      margin-top: 15px;
+      background-color: $portal-green !important;
+      color: black !important;
+      font-weight: bold;
+      border-radius: 8px;
+      padding: 10px 20px;
+      box-shadow: 0 4px 10px rgba(0, 255, 159, 0.3);
+      @include smooth-transition(all);
+
+      &:hover {
+        background-color: darken($portal-green, 10%) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(0, 255, 159, 0.4);
+      }
+    }
+  }
+}

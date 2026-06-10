@@ -1,0 +1,169 @@
+// VARIABLES
+$primary-color: #ffa500;
+$accent-color: #2f4858;
+$bg-color: #f0e7dc;
+$dark-bg: rgba(0, 0, 0, 0.75);
+$light-bg: rgba(0, 0, 0, 0.15);
+$shadow-normal: 0 4px 12px rgba(0, 0, 0, 0.18);
+$shadow-hover: 0 10px 26px rgba(0, 0, 0, 0.35);
+
+// MIXINS
+@mixin smooth-transition($props...) {
+  transition: $props 0.35s ease;
+}
+
+// GLOBAL
+body {
+  background: $bg-color;
+  font-family: 'Poppins', 'Roboto', sans-serif;
+  color: $accent-color;
+}
+
+// TÍTULO
+.list-title {
+  width: 100%;
+  text-align: left !important;
+  margin-left: 20px;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: $accent-color;
+}
+
+// LIST PAGE
+.list-container {
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 30px;
+  padding: 25px;
+  background: lighten($bg-color, 3%);
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+// MEMBER CARD
+.member-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: $shadow-normal;
+  cursor: pointer;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+  @include smooth-transition(transform, box-shadow);
+
+  &:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: $shadow-hover;
+
+    img {
+      transform: scale(1.12);
+    }
+  }
+
+  img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    @include smooth-transition(transform);
+  }
+
+  .card-overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(to top, $dark-bg, $light-bg);
+    color: white;
+
+    .card-title {
+      font-weight: bold;
+    }
+
+    .card-button {
+      margin-top: 10px;
+      color: white !important;
+      border-color: white !important;
+      font-weight: bold;
+      letter-spacing: 1px;
+      @include smooth-transition(all);
+
+      &:hover {
+        background-color: $primary-color !important;
+        border-color: $primary-color !important;
+        transform: translateY(-3px);
+      }
+    }
+  }
+}
+
+// PAGINATION
+.pagination-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+
+  .MuiPaginationItem-root {
+    color: $accent-color;
+    font-weight: bold;
+  }
+
+  .Mui-selected {
+    background-color: $primary-color !important;
+    color: white !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 10px rgba(255, 165, 0, 0.3);
+    transform: translateY(-2px);
+  }
+}
+
+// BOTÓN BUSCAR
+.MuiButton-contained {
+  background-color: $primary-color !important;
+  color: white !important;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 10px 20px;
+  box-shadow: 0 4px 10px rgba(255, 165, 0, 0.3);
+  @include smooth-transition(all);
+
+  &:hover {
+    background-color: darken($primary-color, 10%) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(255, 165, 0, 0.4);
+  }
+}
+
+// BOTÓN RICK & MORTY
+.nav-rickmorty {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+.rickmorty-button {
+  background-color: #00ff9f !important;
+  color: black !important;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 10px 20px;
+  box-shadow: 0 4px 10px rgba(0, 255, 159, 0.3);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: darken(#00ff9f, 10%) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 255, 159, 0.4);
+  }
+}
