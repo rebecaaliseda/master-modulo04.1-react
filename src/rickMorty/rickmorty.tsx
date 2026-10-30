@@ -10,6 +10,8 @@ import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import './rickmorty.scss';
+import { CharacterEntity, getCharacters } from '../api/rickmorty.api';
+import { CharacterCard } from '../components/character-card';
 
 interface Character {
   id: number;
@@ -35,13 +37,16 @@ export const RickMortyPage: React.FC = () => {
   }, [search]);
 
   React.useEffect(() => {
-    fetch(`https://rickandmortyapi.com/api/character/?page=${page}&name=${debouncedSearch}`)
-      .then((res) => res.json())
-      .then((data) => {
-        const limitedResults = data.results ? data.results.slice(0, 6) : [];
-        setCharacters(limitedResults);
-        setTotalPages(data.info?.pages || 1);
-      });
+    const loadCharacters = async () => {
+      const data = await getCharacters(page, debouncedSearch);
+
+      const limitedResults = data.results ? data.results.slice(0, 6) : [];
+
+      setCharacters(limitedResults);
+      setTotalPages(data.info?.pages || 1);
+    };
+
+    loadCharacters();
   }, [debouncedSearch, page]);
 
   return (
@@ -72,26 +77,7 @@ export const RickMortyPage: React.FC = () => {
       <Grid2 container spacing={2}>
         {characters.map((char) => (
           <Grid2 xs={12} sm={6} md={4} key={char.id}>
-            <Card className="character-card">
-              <CardMedia component="img" height="300" image={char.image} alt={char.name} />
-              <Box className="character-overlay">
-                <Typography variant="h6">{char.name}</Typography>
-                <Typography variant="body2">
-                  {char.status} - {char.species}
-                </Typography>
-                <Typography variant="body2">Origen: {char.origin.name}</Typography>
-                <Typography variant="body2">Género: {char.gender}</Typography>
-                <Typography variant="body2">Ubicación: {char.location.name}</Typography>
-                <Button
-                  variant="outlined"
-                  component={Link}
-                  to={`/rickmorty/${char.id}`}
-                  className="card-button"
-                >
-                  Detalle
-                </Button>
-              </Box>
-            </Card>
+            <CharacterCard character={char} />
           </Grid2>
         ))}
       </Grid2>

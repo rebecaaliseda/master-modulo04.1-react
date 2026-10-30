@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams, useLocation, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
@@ -18,9 +18,6 @@ interface MemberDetail {
 
 export const DetailPage: React.FC = () => {
   const { id } = useParams();
-  const location = useLocation();
-  const org = new URLSearchParams(location.search).get('org') || 'lemoncode';
-
   const [member, setMember] = React.useState<MemberDetail | null>(null);
 
   React.useEffect(() => {
@@ -42,12 +39,7 @@ export const DetailPage: React.FC = () => {
           <Typography variant="body1">{member.company}</Typography>
           <Typography variant="body2">{member.bio}</Typography>
 
-          <Button
-            variant="contained"
-            component={Link}
-            to={`/list?org=${org}`}
-            className="back-button"
-          >
+          <Button variant="contained" component={Link} to="/list" className="back-button">
             Volver
           </Button>
         </Box>

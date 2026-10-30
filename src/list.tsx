@@ -10,31 +10,27 @@ import Grid2 from '@mui/material/Unstable_Grid2';
 import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-
-interface MemberEntity {
-  id: string;
-  login: string;
-  avatar_url: string;
-}
+import { getMembers, MemberEntity } from './api/github.api';
+import { MemberCard } from './components/member-card';
+import { OrganizationContext } from './context/organization.context';
 
 export const ListPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const query = new URLSearchParams(location.search);
-  const initialOrg = query.get('org') || 'lemoncode';
   const initialPage = parseInt(query.get('page') || '1');
 
-  const [organization, setOrganization] = React.useState(initialOrg);
+  const { organization, setOrganization } = React.useContext(OrganizationContext);
   const [members, setMembers] = React.useState<MemberEntity[]>([]);
   const [page, setPage] = React.useState(initialPage);
 
-  const handleSearch = () => {
-    fetch(`https://api.github.com/orgs/${organization}/members?per_page=8&page=${page}`)
-      .then((response) => response.json())
-      .then((json) => setMembers(json));
+  const handleSearch = async () => {
+    const members = await getMembers(organization, page);
 
-    navigate(`/list?org=${organization}&page=${page}`);
+    setMembers(members);
+
+    navigate(`/list?page=${page}`);
   };
 
   React.useEffect(() => {
@@ -69,31 +65,7 @@ export const ListPage: React.FC = () => {
       <Grid2 container spacing={1} justifyContent="center">
         {members.map((member) => (
           <Grid2 xs={12} sm={6} md={3} key={member.id}>
-            <Card className="member-card">
-              <CardMedia
-                component="img"
-                height="260"
-                image={member.avatar_url}
-                alt={member.login}
-              />
-
-              <Box className="card-overlay">
-                <Typography variant="h6" className="card-title">
-                  {member.login.toUpperCase()}
-                </Typography>
-
-                <Typography variant="body2">{member.id}</Typography>
-
-                <Button
-                  variant="outlined"
-                  className="card-button"
-                  component={Link}
-                  to={`/detail/${member.login}?org=${organization}`}
-                >
-                  MORE
-                </Button>
-              </Box>
-            </Card>
+            <MemberCard member={member} />
           </Grid2>
         ))}
       </Grid2>

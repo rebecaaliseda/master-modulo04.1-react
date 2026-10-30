@@ -6,26 +6,22 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import './rickmorty.scss';
-
-interface CharacterDetail {
-  id: number;
-  name: string;
-  image: string;
-  status: string;
-  species: string;
-  origin: { name: string };
-  gender: string;
-  location: { name: string };
-}
+import { getCharacter, CharacterEntity } from '../api/rickmorty.api';
 
 export const RickMortyDetailPage: React.FC = () => {
   const { id } = useParams();
-  const [character, setCharacter] = React.useState<CharacterDetail | null>(null);
+  const [character, setCharacter] = React.useState<CharacterEntity | null>(null);
 
   React.useEffect(() => {
-    fetch(`https://rickandmortyapi.com/api/character/${id}`)
-      .then((res) => res.json())
-      .then((data) => setCharacter(data));
+    const loadCharacter = async () => {
+      if (!id) return;
+
+      const character = await getCharacter(id);
+
+      setCharacter(character);
+    };
+
+    loadCharacter();
   }, [id]);
 
   if (!character) return <p>Cargando...</p>;
